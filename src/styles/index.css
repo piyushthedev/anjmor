@@ -167,41 +167,79 @@ a {
 }
 
 /* Location Selector */
+/* Location Selector - Perfect Pill Card */
 .location-selector {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: var(--primary-light);
-  border: 1px solid rgba(0, 135, 90, 0.2);
-  padding: 8px 14px;
-  border-radius: var(--radius-md);
+  gap: 10px;
+  background: #F0FDF4;
+  border: 1.5px solid #BBF7D0;
+  padding: 6px 14px;
+  height: 48px;
+  border-radius: 16px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.25s ease;
+  flex-shrink: 0;
 }
 
 .location-selector:hover {
   background: #DCFCE7;
-  border-color: var(--primary);
+  border-color: #00875A;
+  box-shadow: 0 4px 14px rgba(0, 135, 90, 0.15);
+  transform: translateY(-1px);
 }
 
 .location-details {
   display: flex;
   flex-direction: column;
   text-align: left;
+  line-height: 1.2;
 }
 
 .location-title {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--primary-dark);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #00875A;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .location-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-main);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #0F172A;
   white-space: nowrap;
+}
+
+/* Pincode Modal - Perfect Centered Layout */
+.pincode-modal-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  max-width: 480px;
+  width: 100%;
+  max-height: calc(100vh - 60px);
+  margin: auto;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.pincode-modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #FFFFFF;
+}
+
+.pincode-modal-body {
+  padding: 20px 22px 24px;
+  overflow-y: auto;
+  flex: 1;
 }
 
 /* Search Bar - Perfect Desktop & Mobile Layout */

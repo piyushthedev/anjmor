@@ -518,79 +518,84 @@ export default function Navbar() {
       {/* Pincode Selection Modal */}
       {isPinModalOpen && (
         <div className="modal-backdrop" onClick={() => setIsPinModalOpen(false)}>
-          <div className="modal-content-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '460px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', paddingBottom: '12px', borderBottom: '1px solid #E2E8F0' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0F172A', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div className="pincode-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="pincode-modal-header">
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#0F172A', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <MapPin size={20} color="#00875A" /> Select Delivery Location
               </h3>
-              <button onClick={() => setIsPinModalOpen(false)} className="close-btn"><X size={18} /></button>
+              <button onClick={() => setIsPinModalOpen(false)} className="close-btn" aria-label="Close modal">
+                <X size={18} />
+              </button>
             </div>
-            <p style={{ fontSize: '0.84rem', color: '#64748B', marginBottom: '18px', lineHeight: '1.4' }}>
-              We deliver instant 15-30 minute stationery & art orders across these serviceable locations in West Champaran, Bihar:
-            </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {DELIVERY_PINCODES.map((pin) => {
-                const isSelected = selectedPin.PinId === pin.PinId;
-                return (
-                  <div
-                    key={pin.PinId}
-                    onClick={() => {
-                      setSelectedPin(pin);
-                      setIsPinModalOpen(false);
-                    }}
-                    style={{
-                      padding: '14px 16px',
-                      borderRadius: '12px',
-                      border: `1.5px solid ${isSelected ? '#00875A' : '#E2E8F0'}`,
-                      background: isSelected ? '#F0FDF4' : '#FFFFFF',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      transition: 'all 0.2s ease',
-                      boxShadow: isSelected ? '0 4px 12px rgba(0, 135, 90, 0.12)' : 'none'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '10px',
-                        background: isSelected ? '#00875A' : '#F1F5F9',
-                        color: isSelected ? '#FFFFFF' : '#64748B',
+            <div className="pincode-modal-body">
+              <p style={{ fontSize: '0.84rem', color: '#64748B', marginBottom: '16px', lineHeight: '1.4' }}>
+                We deliver instant 15-30 minute stationery & art orders across these serviceable locations in West Champaran, Bihar:
+              </p>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {DELIVERY_PINCODES.map((pin) => {
+                  const isSelected = selectedPin.PinId === pin.PinId;
+                  return (
+                    <div
+                      key={pin.PinId}
+                      onClick={() => {
+                        setSelectedPin(pin);
+                        setIsPinModalOpen(false);
+                      }}
+                      style={{
+                        padding: '12px 16px',
+                        borderRadius: '14px',
+                        border: `1.5px solid ${isSelected ? '#00875A' : '#E2E8F0'}`,
+                        background: isSelected ? '#F0FDF4' : '#FFFFFF',
+                        cursor: 'pointer',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0
-                      }}>
-                        <MapPin size={20} />
-                      </div>
-                      <div>
-                        <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#0F172A', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                          <span>{pin.DisplayName}</span>
-                          <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#00875A', background: '#DCFCE7', padding: '1px 6px', borderRadius: '4px' }}>
-                            {pin.Pincode}
-                          </span>
+                        justifyContent: 'space-between',
+                        transition: 'all 0.2s ease',
+                        boxShadow: isSelected ? '0 4px 14px rgba(0, 135, 90, 0.12)' : 'none'
+                      }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <div style={{
+                          width: '38px',
+                          height: '38px',
+                          borderRadius: '12px',
+                          background: isSelected ? '#00875A' : '#F1F5F9',
+                          color: isSelected ? '#FFFFFF' : '#64748B',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}>
+                          <MapPin size={20} />
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: '#64748B', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <Clock size={12} color="#00875A" /> Instant 15-30 Mins Delivery
+                        <div>
+                          <div style={{ fontWeight: 800, fontSize: '0.92rem', color: '#0F172A', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span>{pin.DisplayName}</span>
+                            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#00875A', background: '#DCFCE7', padding: '2px 6px', borderRadius: '6px' }}>
+                              {pin.Pincode}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: '0.76rem', color: '#64748B', marginTop: '2px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <Clock size={12} color="#00875A" /> Instant 15-30 Mins Delivery
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {isSelected ? (
-                      <span style={{ fontSize: '0.78rem', background: '#00875A', color: '#fff', padding: '4px 10px', borderRadius: '6px', fontWeight: 700 }}>
-                        Selected ✓
-                      </span>
-                    ) : (
-                      <span style={{ fontSize: '0.78rem', color: '#00875A', fontWeight: 700 }}>
-                        Select
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
+                      {isSelected ? (
+                        <span style={{ fontSize: '0.76rem', background: '#00875A', color: '#fff', padding: '4px 10px', borderRadius: '8px', fontWeight: 700 }}>
+                          Selected ✓
+                        </span>
+                      ) : (
+                        <span style={{ fontSize: '0.76rem', color: '#00875A', background: '#F0FDF4', padding: '4px 10px', borderRadius: '8px', fontWeight: 700, border: '1px solid #BBF7D0' }}>
+                          Select
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
