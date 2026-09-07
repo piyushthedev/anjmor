@@ -11,6 +11,7 @@ import OrdersView from './components/OrdersView';
 import WalletView from './components/WalletView';
 import WishlistView from './components/WishlistView';
 import ProductDetailModal from './components/ProductDetailModal';
+import ProductSlide from './components/ProductSlide';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import OrderSuccessModal from './components/OrderSuccessModal';
@@ -145,6 +146,7 @@ export default function App() {
 
       {/* Global Modals & Drawers */}
       <ProductDetailModal />
+      <ProductSlide />
       <CartDrawer />
       <CheckoutModal />
       <OrderSuccessModal />

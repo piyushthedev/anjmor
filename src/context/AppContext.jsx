@@ -13,6 +13,16 @@ export function AppProvider({ children }) {
   const [activeTab, setActiveTab] = useState('home');
   const [activeCategory, setActiveCategory] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isProductSlideOpen, setIsProductSlideOpen] = useState(false);
+
+  const openProductSlide = (product) => {
+    setSelectedProduct(product);
+    setIsProductSlideOpen(true);
+  };
+
+  const closeProductSlide = () => {
+    setIsProductSlideOpen(false);
+  };
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
@@ -194,6 +204,10 @@ export function AppProvider({ children }) {
         setActiveCategory,
         selectedProduct,
         setSelectedProduct,
+        isProductSlideOpen,
+        setIsProductSlideOpen,
+        openProductSlide,
+        closeProductSlide,
         isCartOpen,
         setIsCartOpen,
         isCheckoutOpen,

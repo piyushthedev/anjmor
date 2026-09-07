@@ -19,6 +19,7 @@ import {
   User,
   LogIn,
   LogOut,
+  Tag,
   UserCheck
 } from 'lucide-react';
 
@@ -39,6 +40,7 @@ export default function Navbar() {
     searchQuery,
     setSearchQuery,
     setSelectedProduct,
+    openProductSlide,
     isPinModalOpen,
     setIsPinModalOpen,
     setIsSupportOpen,
@@ -119,15 +121,15 @@ export default function Navbar() {
 
         {/* Search Bar */}
         <div className="search-wrapper">
-          <div className="search-input-box">
-            <Search size={18} color="#94A3B8" />
+          <div className={`search-input-box ${isSearchFocused ? 'search-focused' : ''}`}>
+            <Search size={18} color={isSearchFocused ? "#8B2FC9" : "#94A3B8"} className="search-icon-anim" />
             <input
               type="text"
               placeholder="Search pens, paints, sketchbooks, office decor..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+              onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
             />
             {searchQuery && (
               <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8' }}>
@@ -139,8 +141,11 @@ export default function Navbar() {
           {/* Search Dropdown */}
           {isSearchFocused && searchQuery.trim() && (
             <div className="search-dropdown">
-              <div style={{ padding: '4px 8px 8px', fontSize: '0.75rem', fontWeight: 600, color: '#64748B' }}>
-                Found {searchResults.length} products
+              <div style={{ padding: '6px 10px 10px', fontSize: '0.78rem', fontWeight: 700, color: '#8B2FC9', borderBottom: '1px solid #F1F5F9', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>Search Results</span>
+                <span style={{ background: '#F3E8FF', padding: '2px 8px', borderRadius: '12px', fontSize: '0.72rem' }}>
+                  {searchResults.length} {searchResults.length === 1 ? 'item' : 'items'} found
+                </span>
               </div>
               {searchResults.length > 0 ? (
                 searchResults.map((product) => (
@@ -148,22 +153,30 @@ export default function Navbar() {
                     key={product.id}
                     className="search-result-item"
                     onClick={() => {
-                      setSelectedProduct(product);
+                      openProductSlide(product);
                       setSearchQuery('');
                     }}
                   >
-                    <img src={product.image} alt={product.name} className="search-result-img" />
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: '0.86rem' }}>{product.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: '#64748B' }}>
-                        ₹{product.price} <span style={{ textDecoration: 'line-through' }}>₹{product.mrp}</span> • {product.category}
+                    <img src={product.image} alt={product.name} className="search-result-img" onError={(e) => { e.target.src = '/assets/icons/stationery.png'; }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                        <span className="search-result-badge category-badge">
+                          <Tag size={10} /> {product.category}
+                        </span>
+                        <span className="search-result-badge brand-badge">{product.brand}</span>
+                      </div>
+                      <div className="search-result-name">{product.name}</div>
+                      <div className="search-result-price-row">
+                        <span className="price-current">₹{product.price}</span>
+                        <span className="price-mrp">₹{product.mrp}</span>
+                        <span className="price-save">Save ₹{product.mrp - product.price}</span>
                       </div>
                     </div>
                   </div>
                 ))
               ) : (
-                <div style={{ padding: '16px', textAlign: 'center', color: '#64748B', fontSize: '0.85rem' }}>
-                  No products found for "{searchQuery}".
+                <div style={{ padding: '20px', textAlign: 'center', color: '#64748B', fontSize: '0.88rem' }}>
+                  No products found for "{searchQuery}". Try searching for <i>Camlin</i>, <i>Notebook</i>, or <i>Colors</i>.
                 </div>
               )}
             </div>
