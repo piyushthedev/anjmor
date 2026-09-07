@@ -105,21 +105,23 @@ export default function Navbar() {
     <header className="navbar-wrapper">
       {/* Top Notice */}
       <div className="top-notice-bar">
-        <div className="top-notice-content">
-          <img 
-            src="/assets/icons/scooter.png" 
-            alt="Delivery" 
-            className="scooter-icon-anim" 
-            onError={(e) => { e.target.style.display = 'none'; }}
-          />
-          <span>⚡ <strong>Superfast 15-30 Mins Delivery</strong> in West Champaran, Bihar | Free Delivery over ₹199</span>
+        <div className="top-notice-inner">
+          <div className="top-notice-content">
+            <img 
+              src="/assets/icons/scooter.png" 
+              alt="Delivery" 
+              className="scooter-icon-anim" 
+              onError={(e) => { e.target.style.display = 'none'; }}
+            />
+            <span>⚡ <strong>Superfast 15-30 Mins Delivery</strong> in West Champaran, Bihar | Free Delivery over ₹199</span>
+          </div>
+          <button 
+            onClick={() => setIsSupportOpen(true)}
+            style={{ color: '#FDE68A', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 700 }}
+          >
+            <HelpCircle size={14} /> Help & Support
+          </button>
         </div>
-        <button 
-          onClick={() => setIsSupportOpen(true)}
-          style={{ color: '#F59E0B', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}
-        >
-          <HelpCircle size={14} /> Help & Support
-        </button>
       </div>
 
       {/* Main Navbar */}
@@ -157,7 +159,7 @@ export default function Navbar() {
             <span className="location-title">Delivery To</span>
             <span className="location-name">{selectedPin.DisplayName}</span>
           </div>
-          <ChevronDown size={14} color="#64748B" />
+          <ChevronDown size={18} color="#64748B" />
         </div>
 
         {/* Search Bar - Matching Screenshot */}

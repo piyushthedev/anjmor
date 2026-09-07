@@ -94,20 +94,26 @@ a {
 .top-notice-bar {
   background: linear-gradient(90deg, #006644 0%, #00875A 50%, #00A36C 100%);
   color: #FFFFFF;
-  padding: 8px 16px;
+  padding: 8px 0;
   font-size: 0.82rem;
   font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.top-notice-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
 }
 
 .top-notice-content {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin: 0 auto;
+  gap: 10px;
 }
 
 .scooter-icon-anim {
