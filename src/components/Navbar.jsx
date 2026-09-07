@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { PRODUCTS, DELIVERY_PINCODES } from '../data/mockData';
 import { 
@@ -21,7 +21,9 @@ import {
   LogOut,
   Tag,
   Sparkles,
-  UserCheck
+  UserCheck,
+  Mic,
+  Bell
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -51,6 +53,22 @@ export default function Navbar() {
   } = useApp();
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+
+  const placeholders = [
+    'Search "Fluorescent Highlighter"',
+    'Search "Camlin Acrylic Colors"',
+    'Search "Classmate Notebooks"',
+    'Search "Gel Pens & Markers"',
+    'Search "Calligraphy & Fountain Pens"'
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPlaceholderIndex((prev) => (prev + 1) % placeholders.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, []);
 
   // Search filter
   const searchResults = searchQuery.trim()
@@ -142,26 +160,33 @@ export default function Navbar() {
           <ChevronDown size={14} color="#64748B" />
         </div>
 
-        {/* Search Bar - Big Size */}
+        {/* Search Bar - Matching Screenshot */}
         <div className="search-wrapper">
           <div className={`search-input-box ${isSearchFocused ? 'search-focused' : ''}`}>
-            <Search size={22} color="#8B2FC9" className="search-icon-anim" style={{ marginLeft: '4px' }} />
+            <Search size={20} color="#64748B" className="search-icon-anim" style={{ marginLeft: '2px', flexShrink: 0 }} />
             <input
               type="text"
-              placeholder="Search pens, paints, sketchbooks, office decor..."
+              placeholder={placeholders[placeholderIndex]}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setTimeout(() => setIsSearchFocused(false), 280)}
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8', padding: '0 6px' }}>
+              <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8', padding: '0 4px' }}>
                 <X size={18} />
               </button>
             )}
-            <button className="search-submit-btn" onClick={() => setIsSearchFocused(true)}>
-              <Search size={14} />
-              <span>Search</span>
+            <div className="search-divider-line" />
+            <button
+              className="search-mic-btn"
+              onClick={() => {
+                setIsSearchFocused(true);
+                setSearchQuery('Fluorescent Highlighter');
+              }}
+              title="Voice Search"
+            >
+              <Mic size={20} color="#64748B" />
             </button>
           </div>
 
