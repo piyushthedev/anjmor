@@ -47,7 +47,7 @@ export const CATEGORIES = [
   {
     id: 11,
     name: "Journaling & Crafts",
-    icon: "/assets/icons/all_category.png",
+    icon: "/assets/images/all_category.png",
     subcategories: [
       { id: 61, name: "Decorative Planners", image: "https://anjmor.eprofitbooks.com/ChildCategoryImage/ef737e8f-2162-4a35-b7a2-da470654587d.png" },
       { id: 62, name: "Scrapbook Stickers", image: "https://anjmor.eprofitbooks.com/ChildCategoryImage/c8fc34f0-6e96-4949-b23d-e24a5c2dadf8.png" },

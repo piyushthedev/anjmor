@@ -18,7 +18,7 @@ export default function CategoryPills({ selectedCategoryId, onSelectCategory }) 
           onClick={() => onSelectCategory(null)}
         >
           <div className="category-icon-circle">
-            <img src="/assets/icons/all_category.png" alt="All" onError={(e) => { e.target.src = '/assets/icons/stationery.png'; }} />
+            <img src="/assets/images/all_category.png" alt="All" onError={(e) => { e.target.src = '/assets/icons/stationery.png'; }} />
           </div>
           <span className="category-card-name">All Items</span>
         </div>
