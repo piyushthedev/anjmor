@@ -101,6 +101,27 @@ export default function Navbar() {
     return matches.slice(0, 4);
   }, [searchQuery, searchResults]);
 
+  // Helper to format delivery location label cleanly (e.g. "845102 • West Champaran")
+  const formatLocationLabel = (pin) => {
+    if (!pin) return 'Select Location';
+    if (typeof pin === 'string') return pin;
+    
+    const pincode = pin.Pincode || '';
+    const displayName = pin.DisplayName || '';
+    
+    if (pincode && displayName) {
+      if (displayName.includes(' - ')) {
+        const parts = displayName.split(' - ');
+        const cityState = parts[1] || '';
+        const city = cityState.split(',')[0].trim();
+        return `${pincode} • ${city}`;
+      }
+      return `${pincode} • ${displayName.split(',')[0].trim()}`;
+    }
+    
+    return displayName || pincode || '845102 • West Champaran';
+  };
+
   return (
     <header className="navbar-wrapper">
       {/* Top Notice */}
@@ -152,14 +173,14 @@ export default function Navbar() {
         <div 
           className="location-selector"
           onClick={() => setIsPinModalOpen(true)}
-          title="Change Delivery Pincode"
+          title={selectedPin?.DisplayName ? `Delivery location: ${selectedPin.DisplayName}` : "Change Delivery Pincode"}
         >
-          <MapPin size={20} color="#00875A" />
+          <MapPin size={20} color="#00875A" style={{ flexShrink: 0 }} />
           <div className="location-details">
-            <span className="location-title">Delivery To</span>
-            <span className="location-name">{selectedPin.DisplayName}</span>
+            <span className="location-title">DELIVERY TO</span>
+            <span className="location-name">{formatLocationLabel(selectedPin)}</span>
           </div>
-          <ChevronDown size={18} color="#64748B" />
+          <ChevronDown size={18} color="#64748B" style={{ flexShrink: 0 }} />
         </div>
 
         {/* Search Bar - Matching Screenshot */}

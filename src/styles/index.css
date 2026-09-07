@@ -172,20 +172,22 @@ a {
   font-weight: 500;
 }
 
-/* Location Selector */
 /* Location Selector - Perfect Pill Card */
 .location-selector {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #F0FDF4;
   border: 1.5px solid #BBF7D0;
-  padding: 6px 14px;
+  padding: 4px 14px;
   height: 48px;
   border-radius: 16px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
+  user-select: none;
+  box-sizing: border-box;
+  max-width: 240px;
 }
 
 .location-selector:hover {
@@ -195,26 +197,36 @@ a {
   transform: translateY(-1px);
 }
 
+.location-selector:active {
+  transform: translateY(0);
+}
+
 .location-details {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   text-align: left;
-  line-height: 1.2;
+  line-height: 1.15;
+  min-width: 0;
+  flex: 1;
 }
 
 .location-title {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 800;
   color: #00875A;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
 }
 
 .location-name {
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: #0F172A;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Pincode Modal - Perfect Centered Layout */
@@ -3324,19 +3336,25 @@ a {
   .navbar-container {
     padding: 8px 12px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .mobile-nav-top-row {
-    width: 100%;
-    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
+  }
+
+  .mobile-hamburger-btn {
+    order: 1;
+    flex-shrink: 0;
+  }
+
+  .nav-brand {
+    order: 2;
+    flex-shrink: 0;
   }
 
   .nav-brand h1 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
   }
 
   .brand-logo-img {
@@ -3348,24 +3366,28 @@ a {
   }
 
   .location-selector {
-    padding: 4px 8px;
+    order: 3;
+    flex-shrink: 1;
+    max-width: 170px;
+    height: 40px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    gap: 6px;
   }
 
   .location-title {
-    font-size: 0.65rem;
+    font-size: 0.60rem;
   }
 
   .location-name {
-    font-size: 0.78rem;
-  }
-
-  .nav-actions {
-    display: none;
+    font-size: 0.76rem;
   }
 
   .search-wrapper {
+    order: 4;
     width: 100%;
     max-width: 100%;
+    margin-top: 2px;
   }
 
   .search-input-box {
