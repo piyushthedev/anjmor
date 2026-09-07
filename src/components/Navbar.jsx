@@ -122,7 +122,7 @@ export default function Navbar() {
         {/* Search Bar */}
         <div className="search-wrapper">
           <div className={`search-input-box ${isSearchFocused ? 'search-focused' : ''}`}>
-            <Search size={18} color={isSearchFocused ? "#8B2FC9" : "#94A3B8"} className="search-icon-anim" />
+            <Search size={18} color="#8B2FC9" className="search-icon-anim" style={{ marginLeft: '4px' }} />
             <input
               type="text"
               placeholder="Search pens, paints, sketchbooks, office decor..."
@@ -132,10 +132,13 @@ export default function Navbar() {
               onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8' }}>
+              <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8', padding: '0 4px' }}>
                 <X size={16} />
               </button>
             )}
+            <button className="search-submit-btn" onClick={() => setIsSearchFocused(true)}>
+              <span>Search</span>
+            </button>
           </div>
 
           {/* Search Dropdown */}
