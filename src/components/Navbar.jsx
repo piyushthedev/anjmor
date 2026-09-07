@@ -20,6 +20,7 @@ import {
   LogIn,
   LogOut,
   Tag,
+  Sparkles,
   UserCheck
 } from 'lucide-react';
 
@@ -59,6 +60,28 @@ export default function Navbar() {
         p.brand.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
+
+  // Intelligent suggested products matching category/brand of search
+  const suggestedProducts = React.useMemo(() => {
+    if (!searchQuery.trim()) return PRODUCTS.slice(0, 4);
+
+    const resultCatIds = [...new Set(searchResults.map((r) => r.categoryId))];
+    const resultBrands = [...new Set(searchResults.map((r) => r.brand.toLowerCase()))];
+
+    let matches = PRODUCTS.filter((p) => {
+      if (searchResults.some((res) => res.id === p.id)) return false;
+      return resultCatIds.includes(p.categoryId) || resultBrands.includes(p.brand.toLowerCase());
+    });
+
+    if (matches.length < 4) {
+      const extra = PRODUCTS.filter(
+        (p) => !searchResults.some((res) => res.id === p.id) && !matches.some((m) => m.id === p.id)
+      );
+      matches = [...matches, ...extra];
+    }
+
+    return matches.slice(0, 4);
+  }, [searchQuery, searchResults]);
 
   return (
     <header className="navbar-wrapper">
@@ -119,69 +142,115 @@ export default function Navbar() {
           <ChevronDown size={14} color="#64748B" />
         </div>
 
-        {/* Search Bar */}
+        {/* Search Bar - Big Size */}
         <div className="search-wrapper">
           <div className={`search-input-box ${isSearchFocused ? 'search-focused' : ''}`}>
-            <Search size={18} color="#8B2FC9" className="search-icon-anim" style={{ marginLeft: '4px' }} />
+            <Search size={22} color="#8B2FC9" className="search-icon-anim" style={{ marginLeft: '4px' }} />
             <input
               type="text"
               placeholder="Search pens, paints, sketchbooks, office decor..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setTimeout(() => setIsSearchFocused(false), 250)}
+              onBlur={() => setTimeout(() => setIsSearchFocused(false), 280)}
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8', padding: '0 4px' }}>
-                <X size={16} />
+              <button onClick={() => setSearchQuery('')} style={{ color: '#94A3B8', padding: '0 6px' }}>
+                <X size={18} />
               </button>
             )}
             <button className="search-submit-btn" onClick={() => setIsSearchFocused(true)}>
+              <Search size={14} />
               <span>Search</span>
             </button>
           </div>
 
-          {/* Search Dropdown */}
-          {isSearchFocused && searchQuery.trim() && (
+          {/* Search Dropdown with Direct Results & Suggested Products */}
+          {isSearchFocused && (
             <div className="search-dropdown">
-              <div style={{ padding: '6px 10px 10px', fontSize: '0.78rem', fontWeight: 700, color: '#8B2FC9', borderBottom: '1px solid #F1F5F9', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <span>Search Results</span>
-                <span style={{ background: '#F3E8FF', padding: '2px 8px', borderRadius: '12px', fontSize: '0.72rem' }}>
-                  {searchResults.length} {searchResults.length === 1 ? 'item' : 'items'} found
-                </span>
+              {/* Quick Suggestion Chips */}
+              <div className="quick-tags-wrap">
+                <span className="quick-tag-pill" onMouseDown={() => setSearchQuery('Camlin')}>🎨 Camlin</span>
+                <span className="quick-tag-pill" onMouseDown={() => setSearchQuery('Notebook')}>📓 Notebooks</span>
+                <span className="quick-tag-pill" onMouseDown={() => setSearchQuery('Pen')}>🖊️ Gel Pens</span>
+                <span className="quick-tag-pill" onMouseDown={() => setSearchQuery('Paints')}>🖌️ Paints</span>
+                <span className="quick-tag-pill" onMouseDown={() => setSearchQuery('Classmate')}>📚 Classmate</span>
               </div>
-              {searchResults.length > 0 ? (
-                searchResults.map((product) => (
-                  <div
-                    key={product.id}
-                    className="search-result-item"
-                    onClick={() => {
-                      openProductSlide(product);
-                      setSearchQuery('');
-                    }}
-                  >
-                    <img src={product.image} alt={product.name} className="search-result-img" onError={(e) => { e.target.src = '/assets/icons/stationery.png'; }} />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                        <span className="search-result-badge category-badge">
-                          <Tag size={10} /> {product.category}
-                        </span>
-                        <span className="search-result-badge brand-badge">{product.brand}</span>
+
+              {searchQuery.trim() ? (
+                <>
+                  <div style={{ padding: '6px 10px', fontSize: '0.78rem', fontWeight: 800, color: '#8B2FC9', borderBottom: '1px solid #F1F5F9', marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>Search Results ({searchResults.length})</span>
+                    <span style={{ background: '#F3E8FF', color: '#7E22CE', padding: '2px 8px', borderRadius: '12px', fontSize: '0.72rem' }}>
+                      {searchResults.length} {searchResults.length === 1 ? 'item' : 'items'} found
+                    </span>
+                  </div>
+
+                  {searchResults.length > 0 ? (
+                    searchResults.map((product) => (
+                      <div
+                        key={product.id}
+                        className="search-result-item"
+                        onMouseDown={() => {
+                          openProductSlide(product);
+                          setSearchQuery('');
+                        }}
+                      >
+                        <img src={product.image} alt={product.name} className="search-result-img" onError={(e) => { e.target.src = '/assets/icons/stationery.png'; }} />
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                            <span className="search-result-badge category-badge">
+                              <Tag size={10} /> {product.category}
+                            </span>
+                            <span className="search-result-badge brand-badge">{product.brand}</span>
+                          </div>
+                          <div className="search-result-name">{product.name}</div>
+                          <div className="search-result-price-row">
+                            <span className="price-current">₹{product.price}</span>
+                            <span className="price-mrp">₹{product.mrp}</span>
+                            <span className="price-save">Save ₹{product.mrp - product.price}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="search-result-name">{product.name}</div>
-                      <div className="search-result-price-row">
-                        <span className="price-current">₹{product.price}</span>
-                        <span className="price-mrp">₹{product.mrp}</span>
-                        <span className="price-save">Save ₹{product.mrp - product.price}</span>
+                    ))
+                  ) : (
+                    <div style={{ padding: '16px', textAlign: 'center', color: '#64748B', fontSize: '0.85rem' }}>
+                      No direct matches for "{searchQuery}". See suggested products below!
+                    </div>
+                  )}
+                </>
+              ) : null}
+
+              {/* ✨ Suggested Products Section */}
+              <div className="search-suggested-section">
+                <div className="search-section-header">
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <Sparkles size={16} color="#8B2FC9" />
+                    <span>Suggested Products for You</span>
+                  </span>
+                  <span style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600 }}>Top Picks</span>
+                </div>
+
+                <div className="search-suggested-grid">
+                  {suggestedProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="suggested-item-card"
+                      onMouseDown={() => {
+                        openProductSlide(product);
+                        setSearchQuery('');
+                      }}
+                    >
+                      <img src={product.image} alt={product.name} className="suggested-item-img" onError={(e) => { e.target.src = '/assets/icons/stationery.png'; }} />
+                      <div className="suggested-item-info">
+                        <div className="suggested-item-name">{product.name}</div>
+                        <div style={{ fontSize: '0.7rem', color: '#64748B', marginTop: '1px' }}>{product.category}</div>
+                        <div className="suggested-item-price">₹{product.price}</div>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <div style={{ padding: '20px', textAlign: 'center', color: '#64748B', fontSize: '0.88rem' }}>
-                  No products found for "{searchQuery}". Try searching for <i>Camlin</i>, <i>Notebook</i>, or <i>Colors</i>.
+                  ))}
                 </div>
-              )}
+              </div>
             </div>
           )}
         </div>
